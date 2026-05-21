@@ -1,5 +1,11 @@
 # Skills for AWS DevOps Agent
 
+> ## ⚠️ **IMPORTANT — READ FIRST**
+>
+> **AWS DevOps Agent custom skills MUST be uploaded as a `.zip` file** through the AWS DevOps Agent Operator Web App. The agent does **not** load skills from a Git repository or an unzipped directory.
+>
+> The unzipped skill folders checked into this repo (e.g. `eks-resilience-checker-skill-devops/`) are provided **for reference and review only** — so you can read the `SKILL.md`, references, and assets directly on GitHub. To actually use a skill, download/grab the corresponding **`.zip`** at the repo root (or zip the directory yourself, with `SKILL.md` at the zip root) and upload it via the Operator Web App.
+
 A collection of custom skills built specifically for [**AWS DevOps Agent**](https://docs.aws.amazon.com/devopsagent/latest/userguide/about-aws-devops-agent.html). These are **not** generic Agent Skills — they are tailored to the AWS DevOps Agent runtime, its agent types, and the operational workflows it executes inside an Agent Space.
 
 ## Skills in this repo
