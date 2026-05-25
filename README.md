@@ -13,6 +13,7 @@ A collection of custom skills built specifically for [**AWS DevOps Agent**](http
 | Skill | Description |
 |-------|-------------|
 | `eks-resilience-checker-skill-devops` | Investigation and remediation procedures for assessing the resiliency posture of Amazon EKS workloads (control plane, data plane, networking, autoscaling, observability, fault-injection mapping). |
+| `aws-wa-review-skill-devops` | Automated AWS Well-Architected Framework review across all 6 pillars. Runs 49 read-only AWS CLI checks (Security, Reliability, Ops Excellence, Performance, Cost, Sustainability), classifies findings by severity + fix-impact, maps Security findings to official WA BP IDs, and produces a Markdown report with a 0-30d / 1-6m / 6-24m roadmap and paste-ready remediation CLI for every finding. |
 
 Each skill is distributed as a `.zip` ready to upload via the AWS DevOps Agent Operator Web App.
 
