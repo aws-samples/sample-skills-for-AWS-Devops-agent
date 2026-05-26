@@ -1,5 +1,5 @@
 ---
-name: eks-resilience-checker
+name: eks-resilience-checker-skill-devops
 description: Assess Amazon EKS cluster resilience against 26 best-practice checks across application workloads (A1-A14), control plane (C1-C5), and data plane (D1-D7), and produce a structured assessment.json that can drive chaos experiments. Use this skill when the user asks to evaluate EKS cluster resilience, run a resilience assessment, audit EKS best practices, identify singleton pods, missing PDBs, missing HPA, multi-AZ spread issues, control plane logging gaps, endpoint access misconfigurations, or prepare an EKS workload for chaos engineering. Triggers on phrases like "EKS resilience", "EKS readiness", "Kubernetes resilience check", "cluster assessment", "EKS best practices audit", "韧性评估", "集群评估", "resiliency check".
 ---
 

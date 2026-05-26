@@ -6,7 +6,7 @@ Custom skill for **AWS DevOps Agent** that conducts an automated AWS Well-Archit
 
 ## What it does
 
-- Runs **49 read-only AWS CLI checks** across all 6 Well-Architected pillars (Security, Reliability, Operational Excellence, Performance Efficiency, Cost Optimization, Sustainability)
+- Runs **55 read-only AWS CLI checks** across all 6 Well-Architected pillars (Security, Reliability, Operational Excellence, Performance Efficiency, Cost Optimization, Sustainability)
 - Classifies each finding with both:
   - **Severity** (🔴 CRITICAL / 🟠 HIGH / 🟡 MEDIUM / 🔵 LOW / ⚪ INFO)
   - **Fix Impact** (`downtime` / `slowness` / `additionalCost` / `needFullTest`, each `0`/`1`/`-1`)
@@ -66,11 +66,11 @@ aws-well-architected-review-skill-devops/
 │   ├── report-template.md            # Report layout
 │   ├── wa-tool-sync.md               # AWS WA Tool API workflow (with 7 engineering pitfalls)
 │   └── programmatic-checks/
-│       ├── security-checks.md        # 12 Security checks
-│       ├── reliability-checks.md     # 9 Reliability checks
+│       ├── security-checks.md        # 15 Security checks
+│       ├── reliability-checks.md     # 11 Reliability checks
 │       ├── ops-excellence-checks.md  # 8 Ops Excellence checks
 │       ├── performance-checks.md     # 7 Performance checks
-│       ├── cost-checks.md            # 8 Cost Optimization checks
+│       ├── cost-checks.md            # 9 Cost Optimization checks
 │       └── sustainability-checks.md  # 5 Sustainability checks
 └── examples/
     └── sample-assessment.md          # Sample report output
@@ -104,7 +104,7 @@ The DevOps Agent variant differs in the following ways:
 
 1. Zip this directory with `SKILL.md` at the zip root:
    ```bash
-   cd Skills-ForDevOpsAgent/aws-wa-review-skill-devops
+   cd aws-wa-review-skill-devops
    zip -r ../aws-wa-review-skill-devops.zip .
    ```
 2. Open the **AWS DevOps Agent Operator Web App** → Skills → **Add skill** → **Upload skill**

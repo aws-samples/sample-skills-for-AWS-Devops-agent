@@ -1,6 +1,6 @@
 ---
 name: aws-well-architected-review-devops
-description: Conduct an automated AWS Well-Architected Framework review across all six pillars (Security, Reliability, Operational Excellence, Performance Efficiency, Cost Optimization, Sustainability). Use this skill when the operator asks for an architecture review, security assessment, cost optimization audit, reliability check, performance audit, sustainability evaluation, or general "Well-Architected review" / "WAFR" / "WA assessment" against an AWS account. Triggers on phrases like "well-architected review", "WAFR", "WA review", "架构评审", "架构评估", "六大支柱评估", "成本优化审计", "可靠性检查", "安全态势评估", "performance audit", "cost optimization review". Runs read-only AWS CLI checks across 49 programmatic checkpoints organized by pillar, classifies findings by severity (CRITICAL / HIGH / MEDIUM / LOW / INFO) and fix-impact (downtime / slowness / additionalCost / needFullTest), and produces a structured Markdown assessment report with prioritized roadmap (0-30 days / 1-6 months / 6-24 months) and paste-ready remediation CLI for every finding.
+description: Conduct an automated AWS Well-Architected Framework review across all six pillars (Security, Reliability, Operational Excellence, Performance Efficiency, Cost Optimization, Sustainability). Use this skill when the operator asks for an architecture review, security assessment, cost optimization audit, reliability check, performance audit, sustainability evaluation, or general "Well-Architected review" / "WAFR" / "WA assessment" against an AWS account. Triggers on phrases like "well-architected review", "WAFR", "WA review", "架构评审", "架构评估", "六大支柱评估", "成本优化审计", "可靠性检查", "安全态势评估", "performance audit", "cost optimization review". Runs read-only AWS CLI checks across 55 programmatic checkpoints organized by pillar, classifies findings by severity (CRITICAL / HIGH / MEDIUM / LOW / INFO) and fix-impact (downtime / slowness / additionalCost / needFullTest), and produces a structured Markdown assessment report with prioritized roadmap (0-30 days / 1-6 months / 6-24 months) and paste-ready remediation CLI for every finding.
 ---
 
 # AWS Well-Architected Framework Review — Automated Assessment
@@ -130,11 +130,11 @@ Execute pillar checks in **Security-First** order. For each pillar, on-demand lo
 
 | Order | Pillar | Check File | Key Domains |
 |-------|--------|-----------|-------------|
-| 1 | **Security** *(mandatory, always first)* | [`security-checks.md`](references/programmatic-checks/security-checks.md) | GuardDuty, Security Hub, IAM, encryption, network exposure, KMS rotation |
+| 1 | **Security** *(mandatory, always first)* | [`security-checks.md`](references/programmatic-checks/security-checks.md) | GuardDuty, Security Hub, IAM, encryption, network exposure, KMS rotation, IMDSv2, Access Analyzer, Secrets rotation |
 | 2 | **Operational Excellence** | [`ops-excellence-checks.md`](references/programmatic-checks/ops-excellence-checks.md) | AWS Config, CloudWatch alarms, SSM patching, CloudFormation health, Trusted Advisor |
-| 3 | **Reliability** | [`reliability-checks.md`](references/programmatic-checks/reliability-checks.md) | Multi-AZ, Backup plans, ASG topology, ELB health checks, Route53 failover, EKS nodegroups |
+| 3 | **Reliability** | [`reliability-checks.md`](references/programmatic-checks/reliability-checks.md) | Multi-AZ, Backup plans, ASG topology, ELB health checks, Route53 failover, EKS nodegroups, RDS backup retention, Service Quotas |
 | 4 | **Performance Efficiency** | [`performance-checks.md`](references/programmatic-checks/performance-checks.md) | Instance generation, EBS volume types, Compute Optimizer, RDS sizing |
-| 5 | **Cost Optimization** | [`cost-checks.md`](references/programmatic-checks/cost-checks.md) | Anomaly Detection, idle EC2, unattached EBS, EIPs, SP/RI coverage, NAT data transfer |
+| 5 | **Cost Optimization** | [`cost-checks.md`](references/programmatic-checks/cost-checks.md) | Anomaly Detection, idle EC2, unattached EBS, EIPs, SP/RI coverage, NAT data transfer, orphan snapshots |
 | 6 | **Sustainability** | [`sustainability-checks.md`](references/programmatic-checks/sustainability-checks.md) | Graviton adoption, fleet utilization, Lambda runtime/architecture, S3 Intelligent-Tiering |
 
 ### Check execution rules
@@ -263,11 +263,11 @@ If the operator speaks Chinese, respond in Chinese while still following the pro
 - [`references/mapping-table.md`](references/mapping-table.md) — Pillar → Question → BP → local check mapping
 - [`references/report-template.md`](references/report-template.md) — Report layout (3-phase roadmap, sections)
 - [`references/wa-tool-sync.md`](references/wa-tool-sync.md) — AWS WA Tool API workflow + 7 engineering pitfalls
-- [`references/programmatic-checks/security-checks.md`](references/programmatic-checks/security-checks.md) — Security pillar (12 checks)
-- [`references/programmatic-checks/reliability-checks.md`](references/programmatic-checks/reliability-checks.md) — Reliability pillar (9 checks)
+- [`references/programmatic-checks/security-checks.md`](references/programmatic-checks/security-checks.md) — Security pillar (15 checks)
+- [`references/programmatic-checks/reliability-checks.md`](references/programmatic-checks/reliability-checks.md) — Reliability pillar (11 checks)
 - [`references/programmatic-checks/ops-excellence-checks.md`](references/programmatic-checks/ops-excellence-checks.md) — Operational Excellence (8 checks)
 - [`references/programmatic-checks/performance-checks.md`](references/programmatic-checks/performance-checks.md) — Performance Efficiency (7 checks)
-- [`references/programmatic-checks/cost-checks.md`](references/programmatic-checks/cost-checks.md) — Cost Optimization (8 checks)
+- [`references/programmatic-checks/cost-checks.md`](references/programmatic-checks/cost-checks.md) — Cost Optimization (9 checks)
 - [`references/programmatic-checks/sustainability-checks.md`](references/programmatic-checks/sustainability-checks.md) — Sustainability (5 checks)
 - [`references/SKILL_ZH.md`](references/SKILL_ZH.md) — Chinese-language version of this skill
 - [`examples/sample-assessment.md`](examples/sample-assessment.md) — Sample report output

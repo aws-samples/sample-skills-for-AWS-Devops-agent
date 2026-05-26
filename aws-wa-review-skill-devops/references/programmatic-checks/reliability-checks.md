@@ -141,6 +141,37 @@ done
 
 ---
 
+## REL-10: RDS Backup Retention Period
+
+```bash
+aws rds describe-db-instances --query 'DBInstances[].{DBId:DBInstanceIdentifier,BackupRetention:BackupRetentionPeriod,Engine:Engine}' --output json
+```
+
+| Result | Severity | Finding  | Remediation |
+|--------|----------|----------------------|
+| Retention ≤ 7 days (default) | MEDIUM | RDS {id} backup retention at {days} days — insufficient for production recovery  `aws rds modify-db-instance --db-instance-identifier {id} --backup-retention-period 14 --apply-immediately` |
+| Retention 0 (disabled) | HIGH | RDS {id} automated backups disabled — no point-in-time recovery  `aws rds modify-db-instance --db-instance-identifier {id} --backup-retention-period 14 --apply-immediately` |
+| Retention ≥ 14 days | INFO | RDS backup retention adequate ✅  — |
+
+---
+
+## REL-11: Service Quotas Utilization
+
+```bash
+# Check EC2 On-Demand instance quota utilization
+aws service-quotas list-service-quotas --service-code ec2 --query 'Quotas[?UsageMetric!=null].{Name:QuotaName,Value:Value,UsageMetric:UsageMetric}' --output json 2>/dev/null
+# Check high-utilization quotas via Trusted Advisor (if available)
+aws support describe-trusted-advisor-check-result --check-id eW7HH0l7J9 --language en --query 'result.flaggedResources[].metadata' --output json 2>/dev/null
+```
+
+| Result | Severity | Finding  | Remediation |
+|--------|----------|----------------------|
+| Quota > 80% utilized | HIGH | Service quota {name} at {pct}% — capacity exhaustion risk  `aws service-quotas request-service-quota-increase --service-code {svc} --quota-code {code} --desired-value {new_value}` |
+| Quota 60-80% utilized | MEDIUM | Service quota {name} at {pct}% — approaching limit  Request proactive increase: `aws service-quotas request-service-quota-increase --service-code {svc} --quota-code {code} --desired-value {new_value}` |
+| All quotas < 60% | INFO | Service quotas within safe utilization ✅  — |
+
+---
+
 ## Summary
 
 | Check | ID | Key Question |
@@ -154,5 +185,7 @@ done
 | S3 Versioning | REL-07 | Object recovery? |
 | DynamoDB PITR | REL-08 | Table recovery? |
 | Lambda Concurrency | REL-09 | Function throttling protection? |
+| RDS Backup Retention | REL-10 | Sufficient backup window? |
+| Service Quotas | REL-11 | Capacity headroom adequate? |
 
-**Total checks: 9** | Expected time: ~3-5 minutes
+**Total checks: 11** | Expected time: ~4-6 minutes

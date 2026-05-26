@@ -128,6 +128,24 @@ done
 
 ---
 
+## COST-09: Orphan EBS Snapshots
+
+```bash
+# Find snapshots owned by this account whose source volume no longer exists
+ACCOUNT_ID=$(aws sts get-caller-identity --query Account --output text)
+ACTIVE_VOLS=$(aws ec2 describe-volumes --query 'Volumes[].VolumeId' --output text | tr '\t' '\n' | sort)
+aws ec2 describe-snapshots --owner-ids "$ACCOUNT_ID" --query 'Snapshots[].{SnapshotId:SnapshotId,VolumeId:VolumeId,StartTime:StartTime,VolumeSize:VolumeSize}' --output json | \
+  jq --argjson vols "$(echo "$ACTIVE_VOLS" | jq -R -s 'split("\n") | map(select(. != ""))')" \
+  '[.[] | select(.VolumeId as $v | $vols | index($v) | not)]'
+```
+
+| Result | Severity | Finding  | Remediation |
+|--------|----------|----------------------|
+| Orphan snapshots found | MEDIUM | {count} EBS snapshots ({total_gb} GB) from deleted volumes — ~${est}/mo wasted  `# verify not needed for AMI: aws ec2 describe-images --filters Name=block-device-mapping.snapshot-id,Values={snap}; aws ec2 delete-snapshot --snapshot-id {snap}` |
+| No orphan snapshots | INFO | No orphan EBS snapshots ✅  — |
+
+---
+
 ## Summary
 
 | Check | ID | Key Question |
@@ -140,5 +158,6 @@ done
 | SP/RI Coverage | COST-06 | Commitment discounts? |
 | NAT Gateways | COST-07 | Data transfer costs? |
 | S3 Lifecycle | COST-08 | Storage tiering? |
+| Orphan Snapshots | COST-09 | Stale snapshot costs? |
 
-**Total checks: 8** | Expected time: ~3-5 minutes
+**Total checks: 9** | Expected time: ~4-6 minutes

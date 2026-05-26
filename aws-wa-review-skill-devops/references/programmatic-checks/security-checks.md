@@ -217,6 +217,55 @@ done
 
 ---
 
+## SEC-13: EC2 IMDSv2 Enforcement
+
+**WA Mapping**: SEC06.BP02 (Protect compute — require IMDSv2 to prevent SSRF credential theft)
+
+```bash
+aws ec2 describe-instances --filters Name=instance-state-name,Values=running \
+  --query 'Reservations[].Instances[].{Id:InstanceId,Name:Tags[?Key==`Name`].Value|[0],HttpTokens:MetadataOptions.HttpTokens,HttpEndpoint:MetadataOptions.HttpEndpoint}' --output json
+# HttpTokens=optional means IMDSv1 is allowed (vulnerable to SSRF)
+```
+
+| Result | Severity | Finding  | Remediation |
+|--------|----------|----------------------|
+| HttpTokens=optional | HIGH | {count} EC2 instances allow IMDSv1 — SSRF credential theft risk  `aws ec2 modify-instance-metadata-options --instance-id {id} --http-tokens required --http-put-response-hop-limit 2` |
+| All HttpTokens=required | INFO | All instances enforce IMDSv2 ✅  — |
+
+---
+
+## SEC-14: IAM Access Analyzer
+
+**WA Mapping**: SEC03.BP07 (Analyze public and cross-account access)
+
+```bash
+aws accessanalyzer list-analyzers --query 'analyzers[].{Name:name,Type:type,Status:status}' --output json
+```
+
+| Result | Severity | Finding  | Remediation |
+|--------|----------|----------------------|
+| No analyzer | HIGH | IAM Access Analyzer not enabled — undetected external access risk  `aws accessanalyzer create-analyzer --analyzer-name account-analyzer --type ACCOUNT` |
+| Analyzer with active findings | MEDIUM | Access Analyzer has {count} active findings — external access detected  `aws accessanalyzer list-findings --analyzer-arn {arn} --filter '{"status":{"eq":["ACTIVE"]}}'` then archive or remediate each |
+| Analyzer active, no findings | INFO | IAM Access Analyzer active, no external access findings ✅  — |
+
+---
+
+## SEC-15: Secrets Manager Rotation
+
+**WA Mapping**: SEC02.BP05 (Audit and rotate credentials periodically)
+
+```bash
+aws secretsmanager list-secrets --query 'SecretList[].{Name:Name,RotationEnabled:RotationEnabled,LastRotated:LastRotatedDate}' --output json
+```
+
+| Result | Severity | Finding  | Remediation |
+|--------|----------|----------------------|
+| Secrets without rotation | MEDIUM | {count} secrets without automatic rotation configured  `aws secretsmanager rotate-secret --secret-id {name} --rotation-lambda-arn {lambda-arn} --rotation-rules AutomaticallyAfterDays=30` |
+| Secrets not rotated > 90 days | HIGH | {count} secrets not rotated in over 90 days  Trigger immediate rotation: `aws secretsmanager rotate-secret --secret-id {name}` then verify application connectivity |
+| All rotating | INFO | All secrets have automatic rotation ✅  — |
+
+---
+
 ## Summary
 
 | Check | ID | Key Question |
@@ -233,5 +282,8 @@ done
 | RDS Encryption | SEC-10 | Is database data encrypted? |
 | VPC Flow Logs | SEC-11 | Is network traffic logged? |
 | KMS Rotation | SEC-12 | Are encryption keys rotated? |
+| IMDSv2 Enforcement | SEC-13 | Is SSRF credential theft prevented? |
+| Access Analyzer | SEC-14 | Is external access detected? |
+| Secrets Rotation | SEC-15 | Are secrets rotated automatically? |
 
-**Total checks: 12** | Expected time: ~3-5 minutes
+**Total checks: 15** | Expected time: ~4-6 minutes
