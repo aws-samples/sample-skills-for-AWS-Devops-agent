@@ -24,6 +24,7 @@ A collection of custom skills built specifically for [**AWS DevOps Agent**](http
 | `cross-account-inventory-compare` | Cross-account resource inventory comparison to detect drift and inconsistencies. |
 | `cross-account-security-posture-check` | Security compliance audit: public S3 buckets, MFA status, open security group ports, and other risk indicators across accounts. |
 | `use-eks-via-call-kubectl` | Guides the agent to use `call_kubectl` (not `use_kubectl`) when querying EKS clusters. |
+| [`devops-agent-cn-management/`](./devops-agent-cn-management/) | Organized collection of the 10 China-region multi-account skills above, with bilingual README. See [中文](./devops-agent-cn-management/README.md) / [English](./devops-agent-cn-management/README_EN.md). |
 
 Each skill is distributed as a `.zip` ready to upload via the AWS DevOps Agent Operator Web App.
 
