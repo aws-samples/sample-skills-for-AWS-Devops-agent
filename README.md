@@ -14,17 +14,7 @@ A collection of custom skills built specifically for [**AWS DevOps Agent**](http
 |-------|-------------|
 | `eks-resilience-checker-skill-devops` | Investigation and remediation procedures for assessing the resiliency posture of Amazon EKS workloads (control plane, data plane, networking, autoscaling, observability, fault-injection mapping). |
 | `aws-wa-review-skill-devops` | Automated AWS Well-Architected Framework review across all 6 pillars. Runs 55 read-only AWS CLI checks (Security, Reliability, Ops Excellence, Performance, Cost, Sustainability), classifies findings by severity + fix-impact, maps Security findings to official WA BP IDs, and produces a Markdown report with a 0-30d / 1-6m / 6-24m roadmap and paste-ready remediation CLI for every finding. |
-| `china-region-multi-account-routing` | Routing layer: determines which MCP endpoint (aws-cn / aws-cn-2) to use based on region and account context. Triggers on China region keywords (cn-north-1, cn-northwest-1, 宁夏, 北京). |
-| `china-incident-triage` | Alert first-response: classifies severity, deduplicates, and routes China-region incidents. |
-| `china-incident-rca` | Root cause analysis: correlates CloudTrail events, deployment timelines, and metric anomalies to identify incident causes. |
-| `china-incident-mitigation` | Mitigation recommendations: outputs CLI commands with mandatory human approval before execution. Never auto-executes write operations. |
-| `china-account-prevention-checks` | Preventive inspections: single points of failure, quota limits, certificate expiry, credential aging. |
-| `cn-partition-arn-routing` | ARN partition mismatch diagnostics (`arn:aws:` vs `arn:aws-cn:`) — catches common AccessDenied errors caused by wrong partition. |
-| `cross-account-cost-attribution` | Dual-account cost comparison and attribution across China-region accounts. |
-| `cross-account-inventory-compare` | Cross-account resource inventory comparison to detect drift and inconsistencies. |
-| `cross-account-security-posture-check` | Security compliance audit: public S3 buckets, MFA status, open security group ports, and other risk indicators across accounts. |
-| `use-eks-via-call-kubectl` | Guides the agent to use `call_kubectl` (not `use_kubectl`) when querying EKS clusters. |
-| [`devops-agent-cn-management/`](./devops-agent-cn-management/) | Organized collection of the 10 China-region multi-account skills above, with bilingual README. See [中文](./devops-agent-cn-management/README.md) / [English](./devops-agent-cn-management/README_EN.md). |
+| [`devops-agent-cn-management/`](./devops-agent-cn-management/) | 10 skills for AWS China Region multi-account DevOps scenarios: routing, incident triage/RCA/mitigation pipeline, preventive checks, ARN partition diagnostics, cross-account cost/inventory/security comparison, and EKS kubectl guidance. See [中文](./devops-agent-cn-management/README.md) / [English](./devops-agent-cn-management/README_EN.md). |
 
 Each skill is distributed as a `.zip` ready to upload via the AWS DevOps Agent Operator Web App.
 
